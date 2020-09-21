@@ -23,11 +23,12 @@ class RNMatomoSdk: NSObject {
     @objc(trackView:resolver:rejecter:)
     func trackView(
         route: Array<String>,
+        url: String,
         resolver: RCTPromiseResolveBlock,
         rejecter: RCTPromiseRejectBlock
     ) -> Void {
         if let tracker = tracker {
-            tracker.track(view: route)
+            tracker.track(view: route, url: url)
             resolver(nil)
         } else {
             rejecter("not_initialized", "The tracker has not been initialized", NSError())
@@ -38,6 +39,7 @@ class RNMatomoSdk: NSObject {
     func trackEvent(
         category: String,
         action: String,
+        url: String,
         optionalParameters: NSDictionary,
         resolver: RCTPromiseResolveBlock,
         rejecter: RCTPromiseRejectBlock
@@ -47,7 +49,7 @@ class RNMatomoSdk: NSObject {
                           action: action,
                           name: optionalParameters.value(forKey:"name") as? String,
                           number: optionalParameters.value(forKey:"value") as? NSNumber,
-                          url: nil
+                          url: url
             )
             resolver(nil)
         } else {

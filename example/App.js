@@ -59,7 +59,7 @@ const App: () => React$Node = () => {
     }
 
     const run = async () => {
-      await Matomo.trackEvent('Application', 'Startup').catch(error =>
+      await Matomo.trackEvent('Application', 'Startup', 'https://demo.matomo.org').catch(error =>
         console.warn('Failed to track event', error),
       );
 
@@ -75,7 +75,7 @@ const App: () => React$Node = () => {
         console.warn('Error setting custom dimension', error),
       );
 
-      await Matomo.trackView(['start']).catch(error =>
+      await Matomo.trackView(['start'], 'https://demo.matomo.org').catch(error =>
         console.warn('Failed to track screen', error),
       );
 
@@ -89,7 +89,7 @@ const App: () => React$Node = () => {
         console.warn('Error clearing custom dimension', error),
       );
 
-      await Matomo.trackView(['start']).catch(error =>
+      await Matomo.trackView(['start'], 'https://demo.matomo.org').catch(error =>
         console.warn('Failed to track screen', error),
       );
     };

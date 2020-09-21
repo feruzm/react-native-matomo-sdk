@@ -5,12 +5,12 @@ export function initialize(apiUrl, siteId) {
   return RNMatomoSdk.initialize(apiUrl, siteId);
 }
 
-export function trackView(route) {
-  return RNMatomoSdk.trackView(route);
+export function trackView(route, url) {
+  return RNMatomoSdk.trackView(route, url);
 }
 
-export function trackEvent(category, event, name, value) {
-  return RNMatomoSdk.trackEvent(category, event, { name: name, value: value });
+export function trackEvent(category, event, url, name, value) {
+  return RNMatomoSdk.trackEvent(category, event, url, { name: name, value: value });
 }
 
 export function setCustomDimension(id, value) {

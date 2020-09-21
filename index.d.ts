@@ -1,10 +1,11 @@
 declare module "react-native-matomo-sdk" {
   namespace MatomoSDK {
     export function initialize(apiUrl: string, siteId: number): Promise<void>;
-    export function trackView(route: string[]): Promise<void>;
+    export function trackView(route: string[], url: string): Promise<void>;
     export function trackEvent(
       category: string,
       action: string,
+      url: string,
       name?: string,
       value?: number
     ): Promise<void>;
