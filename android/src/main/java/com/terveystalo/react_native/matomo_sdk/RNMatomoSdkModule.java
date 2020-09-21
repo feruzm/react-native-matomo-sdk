@@ -47,11 +47,12 @@ public class RNMatomoSdkModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   @SuppressWarnings("unused")
-  public void initialize(String apiUrl, int siteId, Promise promise) {
+  public void initialize(String apiUrl, int siteId, String contentBase, Promise promise) {
     try {
       if (tracker == null) {
         tracker = TrackerBuilder
                 .createDefault(apiUrl, siteId)
+                .setApplicationBaseUrl(contentBase)
                 .build(Matomo.getInstance(this.reactContext));
         Tracker.Callback callback = RNMatomoSdkModule.this::onTrackCallback;
         tracker.addTrackingCallback(callback);
@@ -65,7 +66,7 @@ public class RNMatomoSdkModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   @SuppressWarnings("unused")
-  public void trackView(ReadableArray route, String url, Promise promise) {
+  public void trackView(ReadableArray route, Promise promise) {
     try {
       List<String> routeList = new LinkedList<>();
       for (int i = 0 ; i < route.size() ; i++) {
@@ -73,7 +74,7 @@ public class RNMatomoSdkModule extends ReactContextBaseJavaModule {
       }
       String path = TextUtils.join("/", routeList);
 
-      TrackHelper.track(url).screen(path).title(path).with(tracker);
+      TrackHelper.track().screen(path).title(path).with(tracker);
       promise.resolve(null);
     } catch(Exception e) {
       promise.reject(e);
@@ -82,9 +83,9 @@ public class RNMatomoSdkModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   @SuppressWarnings("unused")
-  public void trackEvent(String category, String action, String url, ReadableMap optionalParameters, Promise promise) {
+  public void trackEvent(String category, String action, ReadableMap optionalParameters, Promise promise) {
     try {
-      TrackHelper.EventBuilder event = TrackHelper.track(url).event(category, action);
+      TrackHelper.EventBuilder event = TrackHelper.track().event(category, action);
       if (optionalParameters.hasKey("name")) {
         event.name(optionalParameters.getString("name"));
       }

@@ -1,16 +1,16 @@
 import { NativeModules } from "react-native";
 const { RNMatomoSdk } = NativeModules;
 
-export function initialize(apiUrl, siteId) {
-  return RNMatomoSdk.initialize(apiUrl, siteId);
+export function initialize(apiUrl, siteId, contentBase) {
+  return RNMatomoSdk.initialize(apiUrl, siteId, contentBase);
 }
 
-export function trackView(route, url) {
-  return RNMatomoSdk.trackView(route, url);
+export function trackView(route) {
+  return RNMatomoSdk.trackView(route);
 }
 
-export function trackEvent(category, event, url, name, value) {
-  return RNMatomoSdk.trackEvent(category, event, url, { name: name, value: value });
+export function trackEvent(category, event, name, value) {
+  return RNMatomoSdk.trackEvent(category, event, { name: name, value: value });
 }
 
 export function setCustomDimension(id, value) {

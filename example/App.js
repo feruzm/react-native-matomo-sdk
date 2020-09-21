@@ -33,17 +33,19 @@ const matomoConfig =
     ? {
         baseUrl: 'https://demo2.matomo.org/piwik.php',
         siteId: 23,
+        contentBase: 'https://demo.matomo.org',
       }
     : {
         baseUrl: 'https://demo.matomo.org/matomo.php',
         siteId: 53,
+        contentBase: 'https://demo.matomo.org',
       };
 
 const useInitializeMatomo = (config: typeof matomoConfig) => {
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    Matomo.initialize(config.baseUrl, config.siteId)
+    Matomo.initialize(config.baseUrl, config.siteId, config.contentBase)
       .catch(error => console.warn('Failed to initialize matomo', error))
       .then(() => setIsInitialized(true));
   }, []);
@@ -59,7 +61,7 @@ const App: () => React$Node = () => {
     }
 
     const run = async () => {
-      await Matomo.trackEvent('Application', 'Startup', 'https://demo.matomo.org').catch(error =>
+      await Matomo.trackEvent('Application', 'Startup').catch(error =>
         console.warn('Failed to track event', error),
       );
 
@@ -75,7 +77,7 @@ const App: () => React$Node = () => {
         console.warn('Error setting custom dimension', error),
       );
 
-      await Matomo.trackView(['start'], 'https://demo.matomo.org').catch(error =>
+      await Matomo.trackView(['start']).catch(error =>
         console.warn('Failed to track screen', error),
       );
 
@@ -89,7 +91,7 @@ const App: () => React$Node = () => {
         console.warn('Error clearing custom dimension', error),
       );
 
-      await Matomo.trackView(['start'], 'https://demo.matomo.org').catch(error =>
+      await Matomo.trackView(['start']).catch(error =>
         console.warn('Failed to track screen', error),
       );
     };

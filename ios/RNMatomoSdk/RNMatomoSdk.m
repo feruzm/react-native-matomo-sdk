@@ -6,17 +6,16 @@
 
 RCT_EXTERN_METHOD(initialize:(nonnull NSString *)apiUrl
                   siteId:(nonnull NSNumber *)siteId
+                  contentBase:(NSString *)contentBase
                   resolver:(RCTPromiseResolveBlock)resolver
                   rejecter:(RCTPromiseRejectBlock)rejecter
                   )
 RCT_EXTERN_METHOD(trackView:(nonnull NSArray *)route
-                  url:(NSString *)url
                   resolver:(RCTPromiseResolveBlock)resolver
                   rejecter:(RCTPromiseRejectBlock)rejecter
                   )
 RCT_EXTERN_METHOD(trackEvent:(nonnull NSString *) category
                   action:(nonnull NSString *)action
-                  url: (NSString *)url
                   optionalParameters:(NSDictionary *)optionalParameters
                   resolver:(RCTPromiseResolveBlock)resolver
                   rejecter:(RCTPromiseRejectBlock)rejecter

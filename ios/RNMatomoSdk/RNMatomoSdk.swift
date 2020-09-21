@@ -9,26 +9,30 @@ class RNMatomoSdk: NSObject {
         return false
     }
 
-    @objc(initialize:siteId:resolver:rejecter:)
+    @objc(initialize:siteId:contentBase:resolver:rejecter:)
     func initialize(
         apiUrl: String,
         siteId: NSNumber,
+        contentBase: String,
         resolver: RCTPromiseResolveBlock,
         rejecter: RCTPromiseRejectBlock
     ) -> Void {
         tracker = MatomoTracker(siteId: siteId.stringValue, baseURL: URL(string: apiUrl)!)
+        if let tracker = tracker {
+            tracker.contentBase = URL(string: contentBase)
+        }
+
         resolver(nil)
     }
 
     @objc(trackView:resolver:rejecter:)
     func trackView(
         route: Array<String>,
-        url: String,
         resolver: RCTPromiseResolveBlock,
         rejecter: RCTPromiseRejectBlock
     ) -> Void {
         if let tracker = tracker {
-            tracker.track(view: route, url: url)
+            tracker.track(view: route)
             resolver(nil)
         } else {
             rejecter("not_initialized", "The tracker has not been initialized", NSError())
@@ -39,7 +43,6 @@ class RNMatomoSdk: NSObject {
     func trackEvent(
         category: String,
         action: String,
-        url: String,
         optionalParameters: NSDictionary,
         resolver: RCTPromiseResolveBlock,
         rejecter: RCTPromiseRejectBlock
@@ -49,7 +52,7 @@ class RNMatomoSdk: NSObject {
                           action: action,
                           name: optionalParameters.value(forKey:"name") as? String,
                           number: optionalParameters.value(forKey:"value") as? NSNumber,
-                          url: url
+                          url: nil
             )
             resolver(nil)
         } else {
